@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Transaksi - Penjualan Sepatu Gunung</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Menu Navigasi -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Beranda</a></li>
+            <li><a href="transaksi.html">Transaksi</a></li>
+            <li><a href="profil.html">Profil</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+    <header>
+        <center><h1>Keranjang Belanja Anda</h1></center>
+    </header>
+
+    <section>
+        <center><h2>Isi Keranjang</h2></center>
+        <div id="cart-items">
+            <center><p>Keranjang Anda kosong!</p></center>
+        </div>
+
+        <center><p>Total: <span id="total-price">Rp 0</span></p></center>
+
+        <center><button id="checkout-btn">Proses Transaksi</button></center>
+    </section>
+
+    
+
+    <script src="script.js"></script>
+
+    <script>
+        // Fungsi untuk menampilkan isi keranjang
+        function displayCart() {
+            const cartItemsContainer = document.getElementById('cart-items');
+            if (cart.length === 0) {
+                cartItemsContainer.innerHTML = '<p>Keranjang Anda kosong!</p>';
+            } else {
+                cartItemsContainer.innerHTML = cart.map(item => `
+                    <div class="cart-item">
+                        <p>${item.name}</p>
+                        <p>Harga: Rp ${item.price.toLocaleString()}</p>
+                    </div>
+                `).join('');
+            }
+
+            // Menampilkan total harga
+            const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+            document.getElementById('total-price').textContent = `Rp ${totalPrice.toLocaleString()}`;
+        }
+
+        // Menampilkan keranjang saat halaman dimuat
+        displayCart();
+
+        // Fungsi untuk melakukan checkout
+        document.getElementById('checkout-btn').addEventListener('click', function() {
+            if (cart.length === 0) {
+                alert('Keranjang Anda kosong. Silakan tambahkan produk!');
+                return;
+            }
+
+            // Konfirmasi checkout
+            const totalPrice = cart.reduce((total, item) => total + item.price, 0);
+            const confirmCheckout = confirm(`Total Belanja: Rp ${totalPrice.toLocaleString()}\nApakah Anda yakin ingin melanjutkan?`);
+            if (confirmCheckout) {
+                cart = [];  // Kosongkan keranjang
+                displayCart();  // Update tampilan keranjang
+                alert('Transaksi Berhasil! Terima kasih atas pembelian Anda.');
+            }
+        });
+    </script>
+</body>
+</html>
